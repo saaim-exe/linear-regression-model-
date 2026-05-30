@@ -1,0 +1,12 @@
+# ninja log v6
+24	861	8016104446020792	linear_regression/CMakeFiles/linear_regression.dir/plot.cpp.obj	3488f15c7538c80a
+11	1609	8016104445864527	linear_regression/CMakeFiles/linear_regression.dir/main.cpp.obj	ff3e6d5dd2989dae
+1610	2305	8016104461801311	linear_regression/linear_regression.exe	c9e239ad08b81ff1
+12	1642	8016105541642475	linear_regression/CMakeFiles/linear_regression.dir/main.cpp.obj	ff3e6d5dd2989dae
+1643	2236	8016105558049958	linear_regression/linear_regression.exe	c9e239ad08b81ff1
+25	1729	8016106177333336	linear_regression/CMakeFiles/linear_regression.dir/main.cpp.obj	ff3e6d5dd2989dae
+1730	2359	8016106194467125	linear_regression/linear_regression.exe	c9e239ad08b81ff1
+27	1674	8016106565555552	linear_regression/CMakeFiles/linear_regression.dir/main.cpp.obj	ff3e6d5dd2989dae
+1675	2273	8016106582113271	linear_regression/linear_regression.exe	c9e239ad08b81ff1
+41	1929	8016179904307022	linear_regression/CMakeFiles/linear_regression.dir/main.cpp.obj	ff3e6d5dd2989dae
+1930	3195	8016179923220449	linear_regression/linear_regression.exe	c9e239ad08b81ff1
