@@ -1,4 +1,48 @@
 {
+	"globsDependent" : 
+	[
+		{
+			"expression" : "C:/Users/1942/source/repos/linear_regression/linear_regression/data/*.cpp",
+			"paths" : [],
+			"recurse" : true
+		},
+		{
+			"expression" : "C:/Users/1942/source/repos/linear_regression/linear_regression/data/*.h",
+			"paths" : [],
+			"recurse" : true
+		},
+		{
+			"expression" : "C:/Users/1942/source/repos/linear_regression/linear_regression/include/*.cpp",
+			"paths" : [],
+			"recurse" : true
+		},
+		{
+			"expression" : "C:/Users/1942/source/repos/linear_regression/linear_regression/include/*.h",
+			"paths" : 
+			[
+				"C:/Users/1942/source/repos/linear_regression/linear_regression/include/data.h",
+				"C:/Users/1942/source/repos/linear_regression/linear_regression/include/linear_regression.h",
+				"C:/Users/1942/source/repos/linear_regression/linear_regression/include/plot.h"
+			],
+			"recurse" : true
+		},
+		{
+			"expression" : "C:/Users/1942/source/repos/linear_regression/linear_regression/src/*.cpp",
+			"paths" : 
+			[
+				"C:/Users/1942/source/repos/linear_regression/linear_regression/src/data.cpp",
+				"C:/Users/1942/source/repos/linear_regression/linear_regression/src/linear_regression.cpp",
+				"C:/Users/1942/source/repos/linear_regression/linear_regression/src/main.cpp",
+				"C:/Users/1942/source/repos/linear_regression/linear_regression/src/plot.cpp"
+			],
+			"recurse" : true
+		},
+		{
+			"expression" : "C:/Users/1942/source/repos/linear_regression/linear_regression/src/*.h",
+			"paths" : [],
+			"recurse" : true
+		}
+	],
 	"inputs" : 
 	[
 		{
@@ -882,6 +926,18 @@
 			"isCMake" : true,
 			"isExternal" : true,
 			"path" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.31/Modules/FindPackageMessage.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Users/1942/vcpkg/installed/x64-windows/share/eigen3/Eigen3ConfigVersion.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Users/1942/vcpkg/installed/x64-windows/share/eigen3/Eigen3Config.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Users/1942/vcpkg/installed/x64-windows/share/eigen3/Eigen3Targets.cmake"
 		}
 	],
 	"kind" : "cmakeFiles",
