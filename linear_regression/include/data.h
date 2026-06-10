@@ -5,6 +5,8 @@
 #include <vector>
 #include <random>
 #include <algorithm>
+#include <numeric>
+#include <assert.h>
 #include <iostream>
 
 struct dataset {
@@ -12,13 +14,22 @@ struct dataset {
 	std::vector<double> targets; 
 };
 
+struct subset {
+	std::vector<std::vector<double>> X_train;
+	std::vector<std::vector<double>> X_test; 
+	std::vector<double> Y_train; 
+	std::vector<double> Y_test; 
+};
 
+
+// FINISH THIS CLASS 
+// THEN WE TRY GRADIENT DESCENT, MAYBE OTHER ALGOS, FIX PLOTTING , REGRESSION LOGIC ETC.. 
 class DataLoader {
 
 public: 
 	 
 	dataset parseCSV(const std::string& path, bool has_header = true); 
-	std::pair<std::vector<double>, std::vector<double>> train_test_split(const dataset& dataset, double test_size = 0.2); 
+	subset train_test_split(const dataset & data, double test_size = 0.2);
 
 		
 private: 

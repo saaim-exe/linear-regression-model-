@@ -43,16 +43,49 @@ dataset DataLoader::parseCSV(const std::string& path, bool has_header = true) {
 	}
 
 
-	this->m_dataset = dataset; 
 	return dataset; 
 }
 
-std::pair<std::vector<double>, std::vector<double>> DataLoader::train_test_split(const dataset& dataset, double test_size = 0.2) {
+subset DataLoader::train_test_split(const dataset& data, double test_size = 0.2) {
+
+	assert(test_size > 0.0 && test_size < 1.0); 
 
 	auto rng = std::default_random_engine{}; 
-	std::ranges::shuffle(dataset, rng); // ?? 
+	size_t n = data.targets.size(); 
+
+	std::vector<size_t> indices(n); 
+	std::iota(indices.begin(), indices.end(), 0);
+
+	std::ranges::shuffle(indices, rng); 
+	
+	// 80/20 split 
+
+	size_t test_count = static_cast<size_t>(std::round(n * test_size));
+	
+	
+	subset s; 
+
+	s.X_train.reserve(n - test_count); 
+	s.X_test.reserve(test_count); 
+
+	s.Y_train.reserve(n - test_count); 
+	s.Y_test.reserve(test_count); 
+	
+
+	for (size_t i = 0; i < n; ++i) {
+
+		size_t idx = indices[i]; 
+
+		if (i < test_count) {
+			s.X_test.push_back(data.features[idx]); 
+			s.Y_test.push_back(data.targets[idx]); 
+		}
+		else {
+			s.X_train.push_back(data.features[idx]); 
+			s.Y_train.push_back(data.targets[idx]); 
+		}
+	} 
 
 
-
-
+	return s; 
 }

@@ -39,7 +39,7 @@ int main() {
 	}
 
 
-	LinearRegression lr; 
+	SimpleLinearRegression lr;
 	lr.fit(x_data, y_data); 
 	auto y_pred = lr.predict(x_data); 
 	
