@@ -6,10 +6,14 @@
 #include <matplotlibcpp.h>
 #include "plot.h"
 #include "linear_regression.h"
+#include "data.h"
+
 
 namespace plt = matplotlibcpp; 
 
- 
+const std::string filename = "C:\\Users\\1942\\source\\repos\\linear_regression\\linear_regression\\datasets\\song_data.csv";
+
+
 int main() {
 
 	try {
@@ -39,18 +43,42 @@ int main() {
 	}
 
 
-	SimpleLinearRegression lr;
-	lr.fit(x_data, y_data); 
-	auto y_pred = lr.predict(x_data); 
+	SimpleLinearRegression slr;
+	slr.fit(x_data, y_data); 
+	auto y_pred = slr.predict(x_data); 
 	
 	for (const auto& p : y_pred) {
 
 		std::cout << "y = " << p << '\n'; 
 	}
 
-	auto MSE = lr.MSE(y_data, y_pred); 
+	auto MSE = slr.MSE(y_data, y_pred); 
 
 	std::cout << "MSE: " << MSE << '\n'; 
+
+
+	DataLoader data; 
+
+	auto dataset = data.parseCSV(filename, true); 
+
+	// print dataset
+	for (const auto& row : dataset.features) {
+
+		for (const auto& value : row) {
+			std::cout << value << " ";
+		}
+		std::cout << '\n';
+	}
+
+
+
+	//MultipleLinearRegression mlr; 
+
+
+
+
+
+
 
 
 	/*std::cout << "--SML EQUATION--\n";

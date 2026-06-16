@@ -1,4 +1,6 @@
 # ninja log v6
-23	1191	8015898069308790	linear_regression/CMakeFiles/linear_regression.dir/plot.cpp.obj	fee2bba5762cd136
 10	1198	8015898069179092	linear_regression/CMakeFiles/linear_regression.dir/main.cpp.obj	d051fbb559dc0821
+23	1191	8015898069308790	linear_regression/CMakeFiles/linear_regression.dir/plot.cpp.obj	fee2bba5762cd136
 1199	2000	8015898081066069	linear_regression/linear_regression.exe	fbfd0c826dc0e37b
+40	2307	8033144785272689	build.ninja	d7305561c67d9f31
+26	155	8033144786522671	C:/Users/1942/source/repos/linear_regression/out/build/x64-debug/CMakeFiles/cmake.verify_globs	51203f9e9e0816b

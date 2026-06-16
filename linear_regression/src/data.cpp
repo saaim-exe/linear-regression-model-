@@ -1,8 +1,6 @@
 #include "data.h"
 
-
-
-dataset DataLoader::parseCSV(const std::string& path, bool has_header = true) {
+dataset DataLoader::parseCSV(const std::string& path, bool has_header) {
 
 	dataset dataset; 
 
@@ -21,6 +19,10 @@ dataset DataLoader::parseCSV(const std::string& path, bool has_header = true) {
 
 	while (std::getline(file, line)) {
 		
+		if (!line.empty() && line.back() == '\r') {
+			line.pop_back(); 
+		}
+
 		if (line.empty()) continue; 
 
 		std::stringstream ss(line); 
@@ -28,25 +30,31 @@ dataset DataLoader::parseCSV(const std::string& path, bool has_header = true) {
 		std::vector<double> row_features;
 
 		while (std::getline(ss, value_str, ',')) {
-			row_features.push_back(std::stod(value_str)); 
-		}
+			
+			if (value_str.empty()) continue; 
 
+			try {
+				row_features.push_back(std::stod(value_str));
+			}
+			catch (const std::exception& e) {
+				std::cerr << "Parsing error on value: " << value_str << std::endl; 
+			}
+		
+		}
 
 		if (!row_features.empty()) {
 			dataset.targets.push_back(row_features.back()); // target last column
 			row_features.pop_back(); 
-
+			dataset.features.push_back(row_features); 
 		}
 
-		dataset.features.push_back(row_features); 
-
 	}
-
+	
 
 	return dataset; 
 }
 
-subset DataLoader::train_test_split(const dataset& data, double test_size = 0.2) {
+/*subset DataLoader::train_test_split(const dataset& data, double test_size = 0.2) {
 
 	assert(test_size > 0.0 && test_size < 1.0); 
 
@@ -89,3 +97,4 @@ subset DataLoader::train_test_split(const dataset& data, double test_size = 0.2)
 
 	return s; 
 }
+*/

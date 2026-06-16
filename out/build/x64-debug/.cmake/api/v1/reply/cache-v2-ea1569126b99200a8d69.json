@@ -583,7 +583,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe"
+			"value" : "C:/PROGRA~1/MICROS~1/2022/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -1098,6 +1098,18 @@
 			"value" : "FALSE"
 		},
 		{
+			"name" : "Eigen3_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for Eigen3."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/1942/vcpkg/installed/x64-windows/share/eigen3"
+		},
+		{
 			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_Python3",
 			"properties" : 
 			[
@@ -1402,6 +1414,18 @@
 			"value" : ""
 		},
 		{
+			"name" : "_Python3_INCLUDE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a file."
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "C:/Users/1942/vcpkg/installed/x64-windows/include/python3.12"
+		},
+		{
 			"name" : "_Python3_Interpreter_REASON_FAILURE",
 			"properties" : 
 			[
@@ -1412,6 +1436,30 @@
 			],
 			"type" : "INTERNAL",
 			"value" : ""
+		},
+		{
+			"name" : "_Python3_LIBRARY_DEBUG",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a library."
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "C:/Users/1942/vcpkg/installed/x64-windows/debug/lib/python312_d.lib"
+		},
+		{
+			"name" : "_Python3_LIBRARY_RELEASE",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a library."
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "C:/Users/1942/vcpkg/installed/x64-windows/lib/python312.lib"
 		},
 		{
 			"name" : "_Python3_NumPy_REASON_FAILURE",

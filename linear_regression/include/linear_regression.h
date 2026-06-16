@@ -1,11 +1,13 @@
+#pragma once
 #include <cmath>
 #include <vector>
 #include <numeric>
 #include <Eigen/Dense>
 #include "data.h"
 
+using namespace Eigen; 
 
-struct parameters {
+struct parameters_slr {
 	double weight; 
 	double bias; 
 };
@@ -21,11 +23,11 @@ public:
 	double mean(const std::vector<double>& values) const; 
 	double variance(const std::vector<double>& x) const;
 	double covariance(const std::vector<double>& x, const std::vector<double>& y) const;
-	parameters fit(const std::vector<double>& x, const std::vector<double>& y); 
+	parameters_slr fit(const std::vector<double>& x, const std::vector<double>& y); // closed form normal equation 
 	std::vector<double> predict(const std::vector<double>& x); 
 	double MSE(const std::vector<double>& y_actual, const std::vector<double>& y_pred) const;
 	double R_squared(const std::vector<double>& y_actual, const std::vector<double>& y_pred) const; 
-	parameters gradient_descent(const std::vector<double>& x,const std::vector<double>& y_actual,const std::vector<double>& y_pred, const parameters& current_p,  double learning_rate = 0.01) const;
+	parameters_slr gradient_descent(const std::vector<double>& x,const std::vector<double>& y_actual,const std::vector<double>& y_pred, const parameters_slr& current_p,  double learning_rate = 0.01) const;
 
 
 	// accessors 
@@ -51,22 +53,46 @@ private:
 
 }; 
 
+
+struct parameters_mlr {
+
+	VectorXd weights; 
+	double bias; 
+};
+
+struct MLR_dataset {
+	MatrixXd features;
+	VectorXd targets;
+};
+
+struct MLR_subset {
+	MatrixXd X_train; 
+	MatrixXd X_test; 
+	VectorXd y_train;
+	VectorXd y_test;
+};
+
+
+
 class MultipleLinearRegression {
 
 public: 
 
-	dataset loadData(const std::string& path, bool hasHeader = true) const;
-
-
-
+	MLR_dataset loadData(const dataset& data);
+	MLR_subset train_test_split(const MLR_dataset& data, double test_size = 0.2);
+	MLR_dataset normalize(MLR_dataset& data) const;
+	parameters_mlr fit(MLR_dataset& data); 
+	VectorXd predict(const MatrixXd& X_test, const parameters_mlr& p); 
+	double MSE(const VectorXd& y_pred, const VectorXd& y_test) const;
+	double R_squared(const VectorXd& y_pred, const VectorXd& y_test) const; 
+	double adjusted_R_squared(const MLR_dataset& data, const VectorXd& y_pred, const VectorXd& y_test) const;
 
 
 private: 
 
-	std::vector<double> m_weights; 
+	VectorXd m_weights; 
 	double m_bias; 
-
-
+	
 
 };
 
