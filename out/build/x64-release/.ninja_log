@@ -1,7 +1,0 @@
-# ninja log v6
-9	35	8034900206444358	C:/Users/Asus/source/repos/linear-regression-model-/out/build/x64-release/CMakeFiles/cmake.verify_globs	6780c288cbe22cec
-58	996	8034900206934268	linear_regression/CMakeFiles/linear_regression.dir/src/plot.cpp.obj	a4816f8e8d34421b
-37	1203	8034900206595625	linear_regression/CMakeFiles/linear_regression.dir/src/data.cpp.obj	abb181ef3146b16b
-49	3062	8034900206860728	linear_regression/CMakeFiles/linear_regression.dir/src/main.cpp.obj	b8f458e1a9aea00d
-43	7355	8034900206793394	linear_regression/CMakeFiles/linear_regression.dir/src/linear_regression.cpp.obj	40a38d2805922ff1
-7355	7559	8034900279888788	linear_regression/linear_regression.exe	1dbb82e1ec5c0731

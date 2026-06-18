@@ -1,8 +1,0 @@
-x64-windows/
-x64-windows/include/
-x64-windows/include/matplotlibcpp.h
-x64-windows/share/
-x64-windows/share/matplotlib-cpp/
-x64-windows/share/matplotlib-cpp/copyright
-x64-windows/share/matplotlib-cpp/vcpkg.spdx.json
-x64-windows/share/matplotlib-cpp/vcpkg_abi_info.txt
