@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/1942/source/repos/linear_regression/linear_regression
+# Install script for directory: C:/Users/Asus/source/repos/linear-regression-model-/linear_regression
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Users/1942/source/repos/linear_regression/out/install/x64-release")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/Asus/source/repos/linear-regression-model-/out/install/x64-release")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -32,9 +32,3 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
-string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
-       "${CMAKE_INSTALL_MANIFEST_FILES}")
-if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/1942/source/repos/linear_regression/out/build/x64-release/linear_regression/install_local_manifest.txt"
-     "${CMAKE_INSTALL_MANIFEST_CONTENT}")
-endif()

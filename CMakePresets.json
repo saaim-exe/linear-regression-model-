@@ -25,13 +25,15 @@
           "value": "x64",
           "strategy": "external"
         },
-        "environment": {
-          "VCPKG_ROOT": "C:/Users/1942/vcpkg"
-        },
         "cacheVariables": {
           "CMAKE_BUILD_TYPE": "Debug",
-          "CMAKE_TOOLCHAIN_FILE": "C:/Users/1942/vcpkg/scripts/buildsystems/vcpkg.cmake",
+          "CMAKE_TOOLCHAIN_FILE": "$env{SAAIM_VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
           "VCPKG_TARGET_TRIPLET": "x64-windows"
+        },
+        "vendor": {
+          "microsoft.com/VisualStudioSettings/CMake/1.0": {
+            "debuggerWorkingDirectory": "${sourceDir}"
+          }
         }
       },
         {
@@ -40,7 +42,7 @@
             "inherits": "x64-debug",
           "cacheVariables": {
             "CMAKE_BUILD_TYPE": "Release",
-            "CMAKE_TOOLCHAIN_FILE": "C:/Users/1942/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            "CMAKE_TOOLCHAIN_FILE": "$env{SAAIM_VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
           }
         },
         {
@@ -97,11 +99,11 @@
                 "lhs": "${hostSystemName}",
                 "rhs": "Darwin"
             },
-            "vendor": {
-                "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
-                    "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
-                }
+          "vendor": {
+            "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+              "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
             }
+          }
         }
     ]
 }

@@ -40,7 +40,10 @@ Python3::Python
 Eigen3::Eigen
 )
 
-target_compile_definitions(linear_regression PRIVATE WITHOUT_NUMPY)
+target_compile_definitions(linear_regression PRIVATE 
+WITHOUT_NUMPY
+DATASET_DIR="${CMAKE_SOURCE_DIR}/linear_regression/datasets"
+)
 
 target_compile_features(linear_regression PRIVATE cxx_std_20)
 

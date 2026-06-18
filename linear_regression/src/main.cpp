@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <cstdlib>
+#include <filesystem>
 #include <map>
 #include <matplotlibcpp.h>
 #include "plot.h"
@@ -11,8 +12,8 @@
 
 namespace plt = matplotlibcpp; 
 
-const std::string filename = "C:\\Users\\1942\\source\\repos\\linear_regression\\linear_regression\\datasets\\song_data.csv";
-
+const std::string filename =
+std::string(DATASET_DIR) + "/song_data.csv";
 
 int main() {
 
@@ -77,7 +78,7 @@ int main() {
 
 
 
-
+	std::cout << std::filesystem::current_path() << std::endl; 
 
 
 

@@ -1,0 +1,32 @@
+Package: vcpkg-cmake-config
+Version: 2024-05-23
+Architecture: x64-windows
+Multi-Arch: same
+Abi: dd6fdebe6cd1fdbaf50c9b7b80e2393714f9f24d87914a47307efda3763c728d
+Status: install ok installed
+
+Package: vcpkg-cmake
+Version: 2024-04-23
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 40e342b837824747c34814c964447e0fb9f600936f0228d89fd6415ab580231a
+Status: install ok installed
+
+Package: eigen3
+Version: 5.0.1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 51c940a2953489216520e2ac1242d5665d28aa39c926fafebf346850a0c4184d
+Description: C++ template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms.
+Status: install ok installed
+
+Package: matplotlib-cpp
+Version: 2020-08-27
+Port-Version: 2
+Architecture: x64-windows
+Multi-Arch: same
+Abi: f34c704cb9f89a09fc0024da3ea4bd84c8bf33298b4c14238aa1d66256177245
+Description: Extremely simple yet powerful header-only C++ plotting library built on the popular matplotlib
+Status: install ok installed
+
