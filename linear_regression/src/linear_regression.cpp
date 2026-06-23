@@ -26,8 +26,12 @@ double SimpleLinearRegression::variance(const std::vector<double>& x) const {
 
 double SimpleLinearRegression::covariance(const std::vector<double>& x, const std::vector<double>& y) const {
 
-	assert(!x.empty() && "X Vector is Empty!"); 
-	assert(x.size() == y.size() && "Vector sizes do not match!"); 
+	if (x.empty()) {
+		throw std::invalid_argument("X vector is empty");
+	}
+	if (x.size() != y.size()) {
+		throw std::invalid_argument("X and Y vector sizes do not match");
+	}
 	
 	double x_dev = 0.0;
 	double y_dev = 0.0; 
@@ -83,7 +87,9 @@ std::vector<double> SimpleLinearRegression::predict(const std::vector<double>& x
 
 double SimpleLinearRegression::MSE(const std::vector<double>& y_actual, const std::vector<double>& y_pred) const {
 
-	assert(y_pred.size() == y_actual.size() && "Vector sizes do not match!");
+	if (y_pred.size() != y_actual.size()) {
+		throw std::invalid_argument("Prediction size must match target size");
+	}
 
 
 	size_t sample_size = y_pred.size(); 
@@ -100,7 +106,9 @@ double SimpleLinearRegression::MSE(const std::vector<double>& y_actual, const st
 
 double SimpleLinearRegression::R_squared(const std::vector<double>& y_actual, const std::vector<double>& y_pred) const {
 
-	assert(y_pred.size() == y_actual.size() && "Vector sizes do not match!");
+	if (y_pred.size() != y_actual.size()) {
+		throw std::invalid_argument("Prediction size must match target size");
+	}
 	size_t sample_size = y_pred.size();
 
 
@@ -121,6 +129,10 @@ double SimpleLinearRegression::R_squared(const std::vector<double>& y_actual, co
 
 parameters_slr SimpleLinearRegression::gradient_descent(const std::vector<double>& x,const std::vector<double>& y_actual, const std::vector<double>& y_pred, const parameters_slr& current_p, double learning_rate) const {
 
+	if (x.size() != y_actual.size() || y_actual.size() != y_pred.size()) {
+		throw std::invalid_argument("X, target, and prediction sizes must match");
+	}
+
 	double weight_sum = 0.0; 
 	double bias_sum = 0.0; 
 
@@ -128,10 +140,10 @@ parameters_slr SimpleLinearRegression::gradient_descent(const std::vector<double
 
 	for (size_t i = 0; i < sample_size; ++i) {
 
-		double error = y_actual[i] - y_pred[i]; 
+		double error = y_pred[i] - y_actual[i]; // 
 
-		weight_sum += -2 * x[i] * (error);
-		bias_sum += -2 * (error); 
+		weight_sum += 2 * x[i] * (error);
+		bias_sum += 2 * (error); 
 
 	}
 
@@ -168,6 +180,9 @@ MLR_dataset MultipleLinearRegression::loadData(const dataset& data) {
 	VectorXd targets(n_samples); 
 
 	for (size_t i = 0; i < n_samples; ++i) {
+		if (parsed_features[i].size() != n_features) {
+			throw std::invalid_argument("Inconsistent feature count in parsed dataset");
+		}
 
 		targets(i) = parsed_targets[i]; 
 
@@ -185,18 +200,27 @@ MLR_dataset MultipleLinearRegression::loadData(const dataset& data) {
 	}; 
 
 
+
 	return mlr_data; 
 }
 
 MLR_subset MultipleLinearRegression::train_test_split(const MLR_dataset& data, double test_size) {
 
-	assert(test_size > 0.0 && test_size < 1.0); 
-	
-	auto rng = std::default_random_engine{}; 
+	if (test_size <= 0.0 || test_size >= 1.0) {
+		throw std::invalid_argument("test_size must be between 0 and 1");
+	}
+	if (data.features.rows() != data.targets.size()) {
+		throw std::invalid_argument("Feature rows must match target size");
+	}
+	if (data.features.rows() == 0) {
+		throw std::invalid_argument("Cannot split an empty dataset");
+	}
+
+	std::random_device rd;
+	std::default_random_engine rng(rd()); 
 
 	size_t n_samples = static_cast<size_t>(data.features.rows()); 
 	size_t n_features = static_cast<size_t>(data.features.cols()); 
-	size_t n_targets = static_cast<size_t>(data.targets.cols()); 
 
 	std::vector<size_t> indices(n_samples); 
 	std::iota(indices.begin(), indices.end(), 0); 
@@ -213,8 +237,8 @@ MLR_subset MultipleLinearRegression::train_test_split(const MLR_dataset& data, d
 
 	s.X_train.resize(train_count, n_features); 
 	s.X_test.resize(test_count, n_features); 
-	s.y_train.resize(train_count, n_targets); 
-	s.y_test.resize(test_count, n_targets); 
+	s.y_train.resize(train_count); 
+	s.y_test.resize(test_count); 
 
 	for (size_t i = 0; i < n_samples; ++i) {
 
@@ -223,93 +247,132 @@ MLR_subset MultipleLinearRegression::train_test_split(const MLR_dataset& data, d
 		if (i < test_count) {
 
 			s.X_test.row(i) = data.features.row(idx); 
-			s.y_test.row(i) = data.targets.row(idx); 
+			s.y_test(i) = data.targets(idx); 
 		}
 		else {
 
 			size_t train_row = i - test_count; 
 
 			s.X_train.row(train_row) = data.features.row(idx);
-			s.y_train.row(train_row) = data.targets.row(idx); 	
+			s.y_train(train_row) = data.targets(idx); 	
 		}
 
 	}
 	return s; 
 }
 
-MLR_dataset MultipleLinearRegression::normalize(MLR_dataset& data) const{ 
 
 
-	MatrixXd features_t = data.features.transpose(); 
-	auto n_features_t = static_cast<size_t>(features_t.rows()); 
+NormalizationStats MultipleLinearRegression::fit_normalizer(const MatrixXd& X) const {
+
+	if (X.rows() == 0 || X.cols() == 0) {
+		throw std::invalid_argument("Cannot normalize an empty feature matrix");
+	}
+
+	Index n_features = static_cast<size_t>(X.cols());
+
+	VectorXd X_means(n_features); 
+	VectorXd X_ranges(n_features); 
 	
-	for (size_t i = 0; i < n_features_t; ++i) {
-		auto fmean = features_t.row(i).mean(); 
-		auto fmax = features_t.row(i).maxCoeff(); 
-		auto fmin = features_t.row(i).minCoeff(); 
-		double frange = fmax - fmin; 
+	X_means = X.colwise().mean().transpose(); 
+	X_ranges = (X.colwise().maxCoeff() - X.colwise().minCoeff()).transpose(); 
 
-		// AVOID DIVISION BY ZERO (if feature column has identical value) 
-		if (frange == 0.0) {
-			frange = 1.0; 
+	for (Index i = 0; i < n_features; ++i) { // AVOIDING DIVISON BY ZERO 
+		if (X_ranges(i) == 0.0) {
+			X_ranges(i) = 1.0; 
 		}
 
-		features_t.row(i).array() -= fmean;
-		features_t.row(i).array() /= frange;
 	}
-	
-	MLR_dataset normalized_data{
-		.features = features_t.transpose(),
-		.targets = data.targets
+
+	NormalizationStats ns{
+		.means = X_means,
+		.ranges = X_ranges
 	}; 
 
-
-	return normalized_data; 
+	return ns; 
 }
 
-parameters_mlr MultipleLinearRegression::fit(MLR_dataset& data) {
+MatrixXd MultipleLinearRegression::normalize(const MatrixXd& X, const NormalizationStats& stats) const {
 
-	auto norm_data = normalize(data); 
 
-	auto norm_features = norm_data.features;
-	auto norm_target = norm_data.targets;
+	Index n_features = X.cols(); 
 
-	long rows = norm_data.features.rows(); 
-	long cols = norm_data.features.cols(); 
+	if (stats.means.size() != n_features || stats.ranges.size() != n_features) {
+		throw std::invalid_argument("Normalizer stats do not match feature count");
+	}
 
+	MatrixXd X_norm = X; 
+
+
+	for (Index i = 0; i < n_features; ++i) {
+
+		X_norm.col(i).array() -= stats.means(i); 
+		X_norm.col(i).array() /= stats.ranges(i); 
+	}
+
+	return X_norm; 
+}
+
+
+parameters_mlr MultipleLinearRegression::fit(const MatrixXd& X_train, const VectorXd& y_train) {
+
+	if (X_train.rows() != y_train.size()) {
+		throw std::invalid_argument("X_train rows must match y_train size");
+	}
+
+	Index rows = X_train.rows(); 
+	Index cols = X_train.cols(); 
+		
 	// add additional col for bias term 
-	MatrixXd X(rows, cols + 1); 
-	X.col(0).setOnes();  // first col 
-	
-	X.rightCols(cols) = norm_features; // features take up other cols 
+	MatrixXd X_design(rows, cols + 1);
+	X_design.col(0).setOnes();  // first col 
 
+	X_design.rightCols(cols) = X_train; // features take up other cols 
+	
 	// closed form normal equation operations 
-	auto X_t = X.transpose(); 
-	auto gram = X_t * X; 
-	auto projection = X_t * norm_target; 
+
+	auto X_t = X_design.transpose(); 
+	auto gram = X_t * X_design; 
+	auto projection = X_t * y_train; 
 
 	VectorXd weights = gram.ldlt().solve(projection); 
 
 	parameters_mlr p{
 		.weights = weights.tail(cols),
 		.bias = weights(0)
-	}; 
+	};
+
+
+
 
 	return p; 
 }
 
-VectorXd MultipleLinearRegression::predict(const MatrixXd& X_test, const parameters_mlr& p) {
 
-	return (X_test * p.weights).array() + p.bias; 
+VectorXd MultipleLinearRegression::predict(const MatrixXd& X, const parameters_mlr& p) const {
+
+	if (X.cols() != p.weights.size()) {
+		throw std::invalid_argument("Feature count must match weights size");
+	}
+
+	return (X * p.weights).array() + p.bias; 
 }
 
 double MultipleLinearRegression::MSE(const VectorXd& y_pred, const VectorXd& y_test) const {
+
+	if (y_pred.size() != y_test.size()) {
+		throw std::invalid_argument("Prediction size must match target size");
+	}
 
 	return (y_test - y_pred).array().square().mean();
 }
 
 
 double MultipleLinearRegression::R_squared(const VectorXd& y_pred, const VectorXd& y_test) const {
+
+	if (y_pred.size() != y_test.size()) {
+		throw std::invalid_argument("Prediction size must match target size");
+	}
 
 	double mean_y_test = y_test.mean(); 
 	
@@ -323,10 +386,19 @@ double MultipleLinearRegression::R_squared(const VectorXd& y_pred, const VectorX
 	return (1 - (SSR / SST)); 
 }
 
-double MultipleLinearRegression::adjusted_R_squared(const MLR_dataset& data, const VectorXd& y_pred, const VectorXd& y_test) const {
+double MultipleLinearRegression::adjusted_R_squared(const MatrixXd& X, const VectorXd& y_pred, const VectorXd& y_test) const {
 
-	Index n = static_cast<size_t>(data.features.rows()); 
-	Index k = static_cast<size_t>(data.features.cols()); 
+	if (X.rows() != y_test.size()){
+		throw std::invalid_argument("X rows must match y_test size");
+		
+		std::cout << "X Rows: " << X.rows() << '\n';
+		std::cout << "Y Test Rows: " << y_test.size(); 
+
+	}
+
+	Index n = X.rows(); 
+	Index k = X.cols(); 
+
 
 	double r_2 = R_squared(y_pred, y_test); 
 
@@ -334,5 +406,38 @@ double MultipleLinearRegression::adjusted_R_squared(const MLR_dataset& data, con
 		return 0.0; 
 	}
 
-	return 1.0 - ((1.0 - r_2) * static_cast<double>(n - 1) / static_cast<double>(n - k - 1));
+	return 1.0 - ((1.0 - r_2) * (n - 1) / (n - k - 1));
 }
+
+parameters_mlr MultipleLinearRegression::gradient_descent(const MatrixXd& X_train, const VectorXd& y_train, const parameters_mlr& current_p, double learning_rate) const {
+
+	if (X_train.rows() != y_train.size()) {
+		throw std::invalid_argument("X_train rows must match y_train size");
+	}
+	if (X_train.cols() != current_p.weights.size()) {
+		throw std::invalid_argument("Feature count must match weights size");
+	}
+
+	Index n_samples = X_train.rows();
+	MatrixXd X_t = X_train.transpose();
+	
+	VectorXd weights = current_p.weights; 
+	double bias = current_p.bias; 
+
+	VectorXd y_pred = predict(X_train, current_p); 
+	VectorXd error = y_pred - y_train; 
+
+	VectorXd grad_weights = (2.0 / n_samples) * (X_t * error);
+	double grad_bias = (2.0 / n_samples) * error.sum();
+
+	weights -= learning_rate * grad_weights; 
+	bias -= learning_rate * grad_bias;
+
+	parameters_mlr p{
+		.weights = weights,
+		.bias = bias
+	}; 
+
+	return p; 
+}
+

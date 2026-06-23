@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <stdexcept>
 #include <vector>
 #include <numeric>
 #include <Eigen/Dense>
@@ -72,6 +73,11 @@ struct MLR_subset {
 	VectorXd y_test;
 };
 
+struct NormalizationStats {
+	VectorXd means; 
+	VectorXd ranges; 
+};
+
 
 
 class MultipleLinearRegression {
@@ -80,13 +86,20 @@ public:
 
 	MLR_dataset loadData(const dataset& data);
 	MLR_subset train_test_split(const MLR_dataset& data, double test_size = 0.2);
-	MLR_dataset normalize(MLR_dataset& data) const;
-	parameters_mlr fit(MLR_dataset& data); 
-	VectorXd predict(const MatrixXd& X_test, const parameters_mlr& p); 
+
+	NormalizationStats fit_normalizer(const MatrixXd& X) const; 
+	MatrixXd normalize(const MatrixXd& X, const NormalizationStats& stats) const; 
+
+	parameters_mlr fit(const MatrixXd& X_train, const VectorXd& y_train); // closed form normal equation
+
+
+
+	VectorXd predict(const MatrixXd& X, const parameters_mlr& p) const; 
 	double MSE(const VectorXd& y_pred, const VectorXd& y_test) const;
 	double R_squared(const VectorXd& y_pred, const VectorXd& y_test) const; 
-	double adjusted_R_squared(const MLR_dataset& data, const VectorXd& y_pred, const VectorXd& y_test) const;
-
+	double adjusted_R_squared(const MatrixXd& X_train, const VectorXd& y_pred, const VectorXd& y_test) const;
+	// gradient descent 
+	parameters_mlr gradient_descent(const MatrixXd& X_train, const VectorXd& y_train, const parameters_mlr& current_p, double learning_rate = 0.01) const;
 
 private: 
 
