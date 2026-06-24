@@ -8,3 +8,5 @@ uses the spotify song popularity dataset [Kaggle](https://www.kaggle.com/dataset
 ![](linear_regression/images/actual_vs_predicted.png)
 ### Residuals
 ![](linear_regression/images/residual_plot.png)
+### Metrics 
+<img width="235" height="252" alt="metrics" src="https://github.com/user-attachments/assets/e47fd2af-24e2-4bb3-a640-5e7fade1184d" />
