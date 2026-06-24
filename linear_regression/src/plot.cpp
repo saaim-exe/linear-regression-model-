@@ -48,7 +48,9 @@ void Plot::actual_vs_predicted(const VectorXd& y_test, const VectorXd& y_pred) c
 	plt::scatter(x_data, y_data); 
 	plt::plot(line_x, line_y, "r--"); 
 	plt::grid(true); 
-	plt::show(); 
+
+	plt::save(std::string(IMAGES_DIR) + "/actual_vs_predicted.png");
+	plt::clf(); 
 
 } 
 
@@ -77,7 +79,9 @@ void Plot::residuals(const VectorXd& y_test, const VectorXd& y_pred) const {
 	plt::scatter(x_data, y_data); 
 	plt::plot(zero_x, zero_y, "r--"); 
 	plt::grid(true);
-	plt::show(); 
+
+	plt::save(std::string(IMAGES_DIR) + "/residual_plot.png");
+	plt::clf(); 
 
 }
 
